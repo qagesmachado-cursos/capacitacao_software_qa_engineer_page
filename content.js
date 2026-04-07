@@ -1,9 +1,9 @@
 const pageContent = {
   hero: {
-    title: "Capacitação Software QA Engineer",
+    title: "Mentoria e Capacitação em Software QA Engineer",
     description:
       "Saia do zero ou destrave sua carreira em testes de software e esteja mais preparado para conquistar sua primeira oportunidade em QA",
-    ctaLabel: "Quero falar sobre a capacitacao",
+    ctaLabel: "Quero falar sobre a mentoria",
   },
   sections: {
     audience: {
@@ -38,7 +38,7 @@ const pageContent = {
       ],
     },
     courseModules: {
-      title: "Conteúdo do curso em módulos:",
+      title: "Conteúdo da mentoria em módulos:",
       modules: [
         {
           title: "Módulo 1 — Introdução ao Teste de Software",
@@ -46,7 +46,7 @@ const pageContent = {
             "Você vai entender o papel do QA no mercado, por que os testes são essenciais e como pensar como um profissional de qualidade desde o início.",
         },
         {
-          title: "Módulo 2 — Fundamentos dos Testes",
+          title: "Módulo 2 - Fundamentos dos Testes de Software",
           summary:
             "Aqui você constrói a base sólida: conceitos fundamentais, princípios de testes e como funciona o processo de qualidade no desenvolvimento de software.",
         },
@@ -56,44 +56,50 @@ const pageContent = {
             "Você aprende a diferenciar e aplicar os principais tipos de teste, entendendo quando usar cada abordagem (manual, automatizado, exploratório, regressão, etc).",
         },
         {
-          title: "Módulo 4 — Processo de Teste na Prática",
+          title: "Módulo 4 - Entendendo o Processo de Teste",
           summary:
             "Você vai dominar o fluxo completo de testes dentro de um projeto real — do planejamento até a entrega final com qualidade.",
         },
         {
-          title: "Módulo 5 — Escrita de Casos de Teste",
+          title:
+            "Módulo 5 - Boas práticas e Ferramentas para escrita e gerenciamento de casos de teste",
           summary:
             "Aprenda a documentar testes de forma profissional, clara e organizada, utilizando boas práticas e padrões usados no mercado.",
         },
         {
-          title: "Módulo 6 — Reporte de Bugs",
+          title: "Módulo 6 - Boas práticas para reportar Bugs",
           summary:
             "Você vai aprender a identificar, classificar e reportar bugs de forma estratégica, aumentando sua credibilidade como QA.",
         },
         {
-          title: "Módulo 7 — Metodologias e Atuação do QA",
+          title: "Módulo 7 - Metodologia de desenvolvimento de Software e atuação do QA",
           summary:
             "Entenda como funcionam os projetos de software e como o QA se posiciona dentro dos times ágeis e tradicionais.",
         },
         {
-          title: "Módulo 9 — Testes de Front-end na Prática",
+          title: "Módulo 8 - Introdução aos testes de API",
+          summary:
+            "Você vai aprender os fundamentos para testar APIs, entendendo estrutura de requisições, respostas e principais validações.",
+        },
+        {
+          title: "Módulo 9 - Projetos de testes de front-end na prática",
           summary:
             "Aplicação real de testes em interfaces web, focando em comportamento do usuário, usabilidade e qualidade visual.",
         },
         {
-          title: "Módulo 10 — Testes de API na Prática",
+          title: "Módulo 10 - Projetos de teste de API na prática",
           summary:
             "Você vai aprender a testar APIs na prática, validando requisições, respostas e integrações entre sistemas.",
         },
         {
-          title: "Módulo 11 — Técnicas de Teste (Avançado)",
-          summary:
-            "Domine técnicas utilizadas no mercado para criar cenários mais eficientes e aumentar a cobertura dos testes.",
-        },
-        {
-          title: "Módulo 12 — Estratégia de Testes (Avançado)",
-          summary:
-            "Aprenda como estruturar uma estratégia de testes eficiente e evitar erros comuns que prejudicam a qualidade do produto.",
+          title: "Módulos extras - Você também, irá aprender:",
+          isAdvanced: true,
+          topics: [
+            "Tópicos avançados 1 - Técnicas de teste",
+            "Tópicos avançados 2 - Padrões e anti-padrões para planejamento de testes",
+            "Tópicos avançados 3 - Utilização de IA no dia a dia do QA",
+            "Dicas para LinkedIn, Currículo e entrevistas",
+          ],
         },
       ],
     },
@@ -104,7 +110,6 @@ const pageContent = {
   footer: {
     title: "Pronto(a) para evoluir em QA?",
     whatsappLabel: "Falar no WhatsApp",
-    note: "Substitua o numero do WhatsApp no link acima.",
   },
 };
 
@@ -128,6 +133,9 @@ function renderModules(listElementId, modules) {
   modules.forEach((mod) => {
     const block = document.createElement("div");
     block.className = "module-item";
+    if (mod.isAdvanced) {
+      block.classList.add("module-advanced");
+    }
     const heading = document.createElement("h3");
     heading.className = "module-title";
     heading.textContent = mod.title;
@@ -138,6 +146,17 @@ function renderModules(listElementId, modules) {
       p.className = "module-summary";
       p.textContent = summaryText;
       block.appendChild(p);
+    }
+    if (Array.isArray(mod.topics) && mod.topics.length > 0) {
+      const list = document.createElement("ul");
+      list.className = "module-topics";
+      mod.topics.forEach((topic) => {
+        const item = document.createElement("li");
+        item.className = "module-topic-item";
+        item.textContent = topic;
+        list.appendChild(item);
+      });
+      block.appendChild(list);
     }
     container.appendChild(block);
   });
@@ -171,10 +190,12 @@ function renderLandingPage() {
   document.getElementById("guarantee-text").textContent =
     pageContent.sections.guarantee.text;
 
-  document.getElementById("testimonial-title").textContent =
-    pageContent.sections.testimonial.title;
-  document.getElementById("testimonial-text").textContent =
-    pageContent.sections.testimonial.text;
+  const testimonialTitle = document.getElementById("testimonial-title");
+  const testimonialText = document.getElementById("testimonial-text");
+  if (testimonialTitle && testimonialText) {
+    testimonialTitle.textContent = pageContent.sections.testimonial.title;
+    testimonialText.textContent = pageContent.sections.testimonial.text;
+  }
 
   document.getElementById("footer-title").textContent = pageContent.footer.title;
   document.getElementById("footer-whatsapp").textContent =
